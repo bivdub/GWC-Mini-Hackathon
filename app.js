@@ -12,7 +12,7 @@ app.use(express.static("public"));
 
 // Routes
 app.get('/', function(req, res){
-    res.render('index', {data: null});
+  res.render('index', {data: null});
 });
 
 app.get('/search', function(req, res){

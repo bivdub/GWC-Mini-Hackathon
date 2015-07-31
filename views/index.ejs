@@ -6,8 +6,25 @@
   <link href="css/style.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+  <title>Bootstrap 3 with Google Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bootstrap core CSS -->
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/css/bootstrap.css" rel="stylesheet" media="screen">
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.3.0/respond.js"></script>
+  <![endif]-->
+
+  <style>
+    #map-container { height: 300px }
+  </style>
 </head>
 <body>
+
 
 <nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -19,9 +36,9 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Brand</a>
+      <img alt="Brand" src="img/ExpediaLogo.png" style="width:75px;height:50px;">
     </div>
-
+    <a class="navbar-brand" href="#"><strong>Hotels and Activities</strong></a>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <form action="/search" method="get" class="navbar-form navbar-right" role="search">
@@ -34,24 +51,78 @@
   </div><!-- /.container-fluid -->
 </nav>
 
+<span class="label label-default">What does this product do?</span>
+
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav">
+      <li><a href="#"><strong>Sort By:</strong></a></li>
+      <li><a href="#">Price</a></li>
+      <li><a href="#">Popularity</a></li>
+      <li><a href="#">Rating</a></li>
+    </ul>
+  </div>
+</nav>
+
 <% if(data !== null) { %>
 
 <table class="table table-hover">
   <thead>
-    <tr>
-      <th>Name</th>
-      <th>Address</th>
-    </tr>
+  <tr>
+    <th>Name</th>
+    <th>Address</th>
+    <th>Activities</th>
+  </tr>
   </thead>
   <tbody>
-    <% for(var i=0; i < data.HotelInfoList.HotelInfo.length; i++) { %>
-    <tr>
-      <td><a href="<%=data.HotelInfoList.HotelInfo[i].DetailsUrl%>"><%= data.HotelInfoList.HotelInfo[i].Name%></a></td>
-      <td><%=data.HotelInfoList.HotelInfo[i].Location.StreetAddress%></td>
-    </tr>
-    <% } %>
+  <% for(var i=0; i < data.HotelInfoList.HotelInfo.length; i++) { %>
+  <tr>
+    <td><a href="<%=data.HotelInfoList.HotelInfo[i].DetailsUrl%>"><%= data.HotelInfoList.HotelInfo[i].Name%></a></td>
+    <td><%=data.HotelInfoList.HotelInfo[i].Location.StreetAddress%></td>
+    <td>SUPER FUN STUFF</td>
+  </tr>
+  <% } %>
   </tbody>
 </table>
 <% } %>
+
+<div id="map-container" class="col-md-6"></div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+<script>
+
+  function init_map() {
+    var var_location = new google.maps.LatLng(45.430817,12.331516);
+
+    var var_mapoptions = {
+      center: var_location,
+      zoom: 14
+    };
+
+    var var_marker = new google.maps.Marker({
+      position: var_location,
+      map: var_map,
+      title:"Venice"});
+
+    var var_map = new google.maps.Map(document.getElementById("map-container"),
+            var_mapoptions);
+
+    var_marker.setMap(var_map);
+    var_location = new google.maps.LatLng(47.6075,122.3393);
+    var var_marker = new google.maps.Marker({
+      position: var_location,
+      map: var_map,
+      title:"Four Seasons Hotel, Seattle"});
+  }
+
+  google.maps.event.addDomListener(window, 'load', init_map);
+
+</script>
+
 </body>
 </html>
